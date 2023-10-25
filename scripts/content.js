@@ -1,3 +1,4 @@
+const extensionId = "lbdopdgceicfambnplhaalbnhcpbdfee";
 const imgUrl =
   "https://media.licdn.com/dms/image/D4E35AQETAqiK4ib7CQ/profile-framedphoto-shrink_800_800/0/1632423158873?e=1698854400&v=beta&t=6Dj84AtVqWsTcI9Hmkcqtka-YsopHYr9dFIpUV7-zc0";
 
@@ -22,10 +23,11 @@ function changeImgs() {
 }
 
 function allImgsHasUrl() {
-  const imgs = document.querySelectorAll("img").toArray();
+  const imgs = Array.from(document.querySelectorAll("img"));
   if (!imgs) return false;
   return imgs.every((img) => img.src == imgUrl);
 }
+
 
 // changeImgs();
 
@@ -33,4 +35,7 @@ const config = { attributes: true, childList: true, subtree: true };
 
 new MutationObserver(() => {
   // changeImgs()
+  chrome.runtime.sendMessage(extensionId, { messageFromWeb: 'Minha Menssagem' }, function(respnse) {
+    console.log(respnse)
+  })  
 }).observe(document, config);

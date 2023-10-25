@@ -11,9 +11,11 @@
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
-      "matches": [
-        "https://*/*", "http://*/*"
-      ]
+      "matches": ["https://*/*", "http://*/*"]
     }
-  ]
+  ],
+  "host_permissions": ["https://*/*", "http://*/*"],
+  "externally_connectable": {
+    "matches": ["https://*/*", "http://*/*"]
+  }
 }
