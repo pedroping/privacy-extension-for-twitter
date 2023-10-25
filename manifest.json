@@ -1,0 +1,19 @@
+{
+  "name": "Extension Test",
+  "version": "1.0",
+  "description": "Uma extensao de teste",
+  "manifest_version": 3,
+  "author": "PedroPing",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Extension Test"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+        "https://www.google.com.br/*"
+      ]
+    }
+  ]
+}
