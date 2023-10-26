@@ -1,6 +1,6 @@
 const extensionId = "lbdopdgceicfambnplhaalbnhcpbdfee";
 const imgUrl =
-  "https://media.licdn.com/dms/image/D4E35AQETAqiK4ib7CQ/profile-framedphoto-shrink_800_800/0/1632423158873?e=1698854400&v=beta&t=6Dj84AtVqWsTcI9Hmkcqtka-YsopHYr9dFIpUV7-zc0";
+  "https://media.licdn.com/dms/image/C4E0BAQECFqP4gGGneQ/company-logo_200_200/0/1610469472545/brunsker_tecnologia_logo?e=1706140800&v=beta&t=S5KW7D91Zu_ZadgzZ8kMgwqVm96hsHK6zp75VzYMBak";
 
 function changeImgs() {
   if (allImgsHasUrl()) return;
@@ -28,14 +28,37 @@ function allImgsHasUrl() {
   return imgs.every((img) => img.src == imgUrl);
 }
 
+document.querySelector("body").addEventListener("click", function (event) {
+  if (event.target.nodeName != "IMG") return;
+  event.stopPropagation();
+  event.preventDefault();
+  const parentElement = event.target.parentElement;
+  const newImg = document.createElement("img");
+  newImg.src = imgUrl;
+  newImg.width = event.target.width;
+  newImg.height = event.target.height;
+  parentElement.removeChild(event.target);
+  parentElement.appendChild(newImg);
+});
 
-// changeImgs();
+document.querySelector("body").addEventListener("mouseover", function (event) {
+  if (event.target.nodeName != "IMG") return;
+  event.stopPropagation();
+  event.preventDefault();
+  const parentElement = event.target.parentElement;
+  const newImg = document.createElement("img");
+  newImg.src = imgUrl;
+  newImg.width = event.target.width;
+  newImg.height = event.target.height;
+  parentElement.removeChild(event.target);
+  parentElement.appendChild(newImg);
+});
 
 const config = { attributes: true, childList: true, subtree: true };
 
-new MutationObserver(() => {
-  // changeImgs()
-  chrome.runtime.sendMessage(extensionId, { messageFromWeb: 'Minha Menssagem' }, function(respnse) {
-    console.log(respnse)
-  })  
-}).observe(document, config);
+// new MutationObserver(() => {
+//   if(!chrome.runtime) return;
+//   chrome.runtime.sendMessage(extensionId, { messageFromWeb: 'Minha Menssagem' }, function(respnse) {
+//     console.log(respnse)
+//   })
+// }).observe(document, config);
