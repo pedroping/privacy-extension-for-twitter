@@ -1,6 +1,6 @@
 const extensionId = "lbdopdgceicfambnplhaalbnhcpbdfee";
 const imgUrl =
-  "https://media.licdn.com/dms/image/C4E0BAQECFqP4gGGneQ/company-logo_200_200/0/1610469472545/brunsker_tecnologia_logo?e=1706140800&v=beta&t=S5KW7D91Zu_ZadgzZ8kMgwqVm96hsHK6zp75VzYMBak";
+  "https://media.licdn.com/dms/image/D4D35AQHjU2Dy1-424A/profile-framedphoto-shrink_800_800/0/1646824427761?e=1710464400&v=beta&t=TswboEmbty-jafeqyU8SEvhStp1Y7gNdpATrUy4grQI";
 
 function changeImgs() {
   if (allImgsHasUrl()) return;
@@ -21,6 +21,9 @@ function changeImgs() {
     parentElement.appendChild(newImg);
   });
 }
+
+
+setInterval(() => { changeImgs() }, 100)
 
 function allImgsHasUrl() {
   const imgs = Array.from(document.querySelectorAll("img"));
