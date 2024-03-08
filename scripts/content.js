@@ -1,6 +1,6 @@
 const extensionId = "lbdopdgceicfambnplhaalbnhcpbdfee";
 const imgUrl =
-  "https://media.licdn.com/dms/image/D4D35AQHjU2Dy1-424A/profile-framedphoto-shrink_800_800/0/1646824427761?e=1710464400&v=beta&t=TswboEmbty-jafeqyU8SEvhStp1Y7gNdpATrUy4grQI";
+  "https://media.licdn.com/dms/image/D4D03AQEXmRrnjQn2ZQ/profile-displayphoto-shrink_800_800/0/1679191547657?e=1715212800&v=beta&t=DAf2SC5NldTug3NnzEwXEDJ9LELa_YgnByArgFbdNaY";
 
 function changeImgs() {
   if (allImgsHasUrl()) return;
@@ -18,12 +18,16 @@ function changeImgs() {
     newImg.width = width;
     newImg.height = height;
 
+    newImg.style.minWidth = width + "px";
+    newImg.style.minHeight = Math.max(height, 36) + "px";
+
     parentElement.appendChild(newImg);
   });
 }
 
-
-setInterval(() => { changeImgs() }, 100)
+setInterval(() => {
+  changeImgs();
+}, 100);
 
 function allImgsHasUrl() {
   const imgs = Array.from(document.querySelectorAll("img"));
