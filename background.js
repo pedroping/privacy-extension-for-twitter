@@ -5,7 +5,7 @@ if (typeof browser == "undefined") {
 const settingsIdentifier = "data";
 
 const requiredPermissions = {
-  origins: ["https://www.google.com/*"],
+  origins: ["https://twitter.com/*", "https://x.com/*"],
   permissions: ["storage"],
 };
 
