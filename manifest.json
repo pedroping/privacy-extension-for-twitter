@@ -1,6 +1,6 @@
 {
   "name": "Extension Test",
-  "version": "1.0",
+  "version": "3.3.2",
   "description": "Uma extensao de teste",
   "manifest_version": 3,
   "author": "PedroPing",
@@ -8,14 +8,18 @@
     "default_popup": "index.html",
     "default_title": "Extension Test"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"],
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
-      "matches": ["https://*/*", "http://*/*"]
+      "js": ["scripts/contentScript.js"],
+      "matches": ["https://www.google.com/*"]
     }
   ],
-  "host_permissions": ["https://*/*", "http://*/*"],
+  "host_permissions": ["https://www.google.com/*"],
   "externally_connectable": {
-    "matches": ["https://*/*", "http://*/*"]
+    "matches": ["https://www.google.com/*"]
   }
 }

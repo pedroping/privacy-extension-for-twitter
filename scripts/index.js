@@ -1,6 +1,25 @@
-console.log('HAHAHAHAHAHH OLHA O LOG', document);
+if (typeof browser == "undefined") {
+  globalThis.browser = chrome;
+}
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-  console.log('teste', request, sender, sendResponse);
-  sendResponse('我收到你的消息');
+const settingsIdentifier = "data";
+
+document.querySelector("button").addEventListener("click", () => {
+  test();
 });
+
+function test() {
+  browser.storage.sync.get([settingsIdentifier]).then((result) => {
+
+    if (!result.hasOwnProperty(settingsIdentifier)) {
+      browser.runtime.reload();
+      return;
+    }
+
+    console.log("Click 4", result);
+    browser.storage.sync.set({
+      data: `${Math.random() * 10}`,
+      aa: Math.random() * 10,
+    });
+  });
+}
