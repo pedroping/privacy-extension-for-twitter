@@ -1,12 +1,12 @@
 {
-  "name": "Extension Test",
+  "name": "Privacy Extension for Twitter",
   "version": "3.3.2",
   "description": "Uma extensao de teste",
   "manifest_version": 3,
   "author": "PedroPing",
   "action": {
-    "default_popup": "index.html",
-    "default_title": "Extension Test"
+    "default_popup": "content/index.html",
+    "default_title": "Privacy Extension for Twitter"
   },
   "background": {
     "service_worker": "background.js"
@@ -15,11 +15,11 @@
   "content_scripts": [
     {
       "js": ["scripts/contentScript.js"],
-      "matches": ["https://www.google.com/*"]
+      "matches": ["https://twitter.com/*", "https://x.com/*"]
     }
   ],
-  "host_permissions": ["https://www.google.com/*"],
+  "host_permissions": ["https://twitter.com/*", "https://x.com/*"],
   "externally_connectable": {
-    "matches": ["https://www.google.com/*"]
+    "matches": ["https://twitter.com/*", "https://x.com/*"]
   }
 }
