@@ -4,9 +4,13 @@ if (typeof browser == "undefined") {
 
 const settingsIdentifier = "data";
 
-const intialData = {
+let intialData = {
   blurPost: false,
   blurTrending: false,
+  blurMessage: false,
+  blurProfilePicture: false,
+  blurSearch: false,
+  blurTextInputs: false,
 };
 
 Array.from(document.querySelectorAll('input[type="checkbox"]')).forEach(
@@ -34,8 +38,7 @@ function intiData() {
     }
 
     const data = JSON.parse(result.data);
-    intialData.blurPost = data.blurPost;
-    intialData.blurTrending = data.blurTrending;
+    intialData = { ...intialData, ...data };
     browser.storage.sync.set(result);
 
     Array.from(document.querySelectorAll('input[type="checkbox"]')).forEach(
