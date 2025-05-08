@@ -5,71 +5,119 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Extension Test</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
-  <h1>Privacy Extension for Twitter</h1>
+  <header>
+    <img src="../assets/privacy-extension-for-twitter-black.png" alt="Privacy Extension For Twitter logo">
+    <h1>Privacy Extension for Twitter</h1>
+  </header>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurPost">
-      <span class="slider">
-      </span>
-    </label>
+  <main>
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider">
+        </span>
+      </label>
 
-    <span>Blur Posts</span>
-  </div>
+      <span>Enable/Disable</span>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurTrending">
-      <span class="slider">
-      </span>
-    </label>
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
 
-    <span>Blur Trending</span>
-  </div>
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurPost">
+        <span class="slider">
+        </span>
+      </label>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurMessage">
-      <span class="slider">
-      </span>
-    </label>
+      <span>Blur Posts</span>
 
-    <span>Blur Messages</span>
-  </div>
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurProfilePicture">
-      <span class="slider">
-      </span>
-    </label>
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurTrending">
+        <span class="slider">
+        </span>
+      </label>
 
-    <span>Blur Profile Pictures</span>
-  </div>
+      <span>Blur Trending</span>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurSearch">
-      <span class="slider">
-      </span>
-    </label>
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
 
-    <span>Blur Search</span>
-  </div>
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurMessage">
+        <span class="slider">
+        </span>
+      </label>
 
-  <div class="option">
-    <label class="switch">
-      <input type="checkbox" eventId="blurTextInputs">
-      <span class="slider">
-      </span>
-    </label>
+      <span>Blur Messages</span>
 
-    <span>Blur Text Inputs</span>
-  </div>
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
+
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurProfilePicture">
+        <span class="slider">
+        </span>
+      </label>
+
+      <span>Blur Profile Pictures</span>
+
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
+
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurSearch">
+        <span class="slider">
+        </span>
+      </label>
+
+      <span>Blur Search</span>
+
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
+
+    <div class="option">
+      <label class="switch">
+        <input type="checkbox" eventId="blurTextInputs">
+        <span class="slider">
+        </span>
+      </label>
+
+      <span>Blur Text Inputs</span>
+
+      <div class="gear">
+        <img src="../assets/gear-icon.png" alt="Gear icon">
+      </div>
+    </div>
+  </main>
 
 
   <script src="./index.js"></script>

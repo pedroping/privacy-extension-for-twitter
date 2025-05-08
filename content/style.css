@@ -1,0 +1,171 @@
+body {
+  display: flex;
+  flex-direction: column;
+  width: 285px;
+  min-width: 285px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+header img {
+  width: 35px;
+}
+
+header h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.option::before {
+  content: "";
+  width: calc(100% + 50px);
+  height: 1px;
+  background: #ffffff;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(0, 0, 0, 1) 25%,
+    rgba(255, 255, 255, 1) 90%
+  );
+  margin: 7px 0px;
+  position: absolute;
+  top: -17px;
+  left: -17px;
+}
+
+.option:first-of-type::before {
+  display: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2.5px;
+  padding: 0 5px;
+  position: relative;
+  margin: 20px 0;
+}
+
+.option .gear {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 2px;
+  position: absolute;
+  right: 10px;
+  border: 1px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 200ms ease-in-out;
+}
+
+.gear img {
+  width: 25px;
+  transition: all 500ms ease-in-out;
+}
+
+.gear:hover img {
+  transform: rotate(180deg) scale(1.1);
+}
+
+.option:not(:has(input:checked)) .gear {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.option:not(:has(input:checked)) .gear img {
+  transform: none !important;
+}
+
+.option span {
+  font-weight: 500;
+  opacity: 0.5;
+  transition: opacity 200ms ease-in-out;
+  font-size: 16px;
+}
+
+.option:has(input:checked) span {
+  opacity: 1;
+}
+
+.option .switch span {
+  opacity: 1 !important;
+}
+
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #b0b0b0;
+  border: 1px solid #b0b0b0;
+  transition: 0.4s;
+  border-radius: 32px;
+  outline: none;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  outline: 2px solid #b0b0b0;
+  left: 2px;
+  bottom: 2px;
+  background-color: #fff;
+  transition: transform 0.25s ease-in-out 0s;
+}
+
+.slider-icon {
+  opacity: 0;
+  height: 12px;
+  width: 12px;
+  stroke-width: 8;
+  position: absolute;
+  z-index: 999;
+  stroke: #222222;
+  right: 60%;
+  top: 30%;
+  transition: right ease-in-out 0.3s, opacity ease-in-out 0.15s;
+}
+
+input:checked + .slider {
+  background-color: #222222;
+}
+
+input:checked + .slider .slider-icon {
+  opacity: 1;
+  right: 20%;
+}
+
+input:checked + .slider:before {
+  transform: translateX(10px);
+  outline-color: #181818;
+}
