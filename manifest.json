@@ -6,7 +6,18 @@
   "author": "PedroPing",
   "action": {
     "default_popup": "content/index.html",
-    "default_title": "Privacy Extension for Twitter"
+    "default_title": "Privacy Extension for Twitter",
+    "default_icon": {
+      "16": "assets/privacy-extension-for-twitter-black.png",
+      "24": "assets/privacy-extension-for-twitter-black.png",
+      "32": "assets/privacy-extension-for-twitter-black.png"
+    }
+  },
+  "icons": {
+    "16": "assets/privacy-extension-for-twitter-black.png",
+    "32": "assets/privacy-extension-for-twitter-black.png",
+    "48": "assets/privacy-extension-for-twitter-black.png",
+    "128": "assets/privacy-extension-for-twitter-black.png"
   },
   "background": {
     "service_worker": "background.js"
