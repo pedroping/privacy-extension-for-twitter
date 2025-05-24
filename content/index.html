@@ -28,10 +28,6 @@
       </label>
 
       <span>Enable/Disable</span>
-
-      <div class="gear">
-        <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
     </div>
 
     <div class="option">
@@ -43,9 +39,9 @@
 
       <span>Blur Posts</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurPost">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
 
     <div class="option">
@@ -57,9 +53,9 @@
 
       <span>Blur Trending</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurTrending">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
 
     <div class="option">
@@ -71,9 +67,9 @@
 
       <span>Blur Messages</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurMessage">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
 
     <div class="option">
@@ -85,9 +81,9 @@
 
       <span>Blur Profile Pictures</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurProfilePicture">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
 
     <div class="option">
@@ -99,9 +95,9 @@
 
       <span>Blur Search</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurSearch">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
 
     <div class="option">
@@ -113,12 +109,21 @@
 
       <span>Blur Text Inputs</span>
 
-      <div class="gear">
+      <button class="gear" eventId="blurTextInputs">
         <img src="../assets/gear-icon.png" alt="Gear icon">
-      </div>
+      </button>
     </div>
-  </main>
 
+    <div class="action-popup" id="action-popup">
+      <label for="opacity">Custom Opacity</label>
+      <div class="opacity-action more"><img src="../assets/plus.svg" alt="up-arrow"></div>
+      <input type="number" name="opacity" id="opacity">
+      <div class="opacity-action less"><img src="../assets/minus.svg" alt="down-arrow"></div>
+
+      <img src="../assets/rotate.svg" alt="undo action" class="undo-action">
+    </div>
+
+  </main>
 
   <script src="./index.js"></script>
 </body>
