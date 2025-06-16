@@ -22,7 +22,7 @@
   <main>
     <div class="option">
       <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" id="globalBlur">
         <span class="slider">
         </span>
       </label>
@@ -116,11 +116,10 @@
 
     <div class="action-popup" id="action-popup">
       <label for="opacity">Custom Opacity</label>
-      <div class="opacity-action more"><img src="../assets/plus.svg" alt="up-arrow"></div>
+      <div class="opacity-action more" id="more"><img src="../assets/plus.svg" alt="up-arrow"></div>
       <input type="number" name="opacity" id="opacity">
-      <div class="opacity-action less"><img src="../assets/minus.svg" alt="down-arrow"></div>
-
-      <img src="../assets/rotate.svg" alt="undo action" class="undo-action">
+      <div class="opacity-action less" id="less"><img src="../assets/minus.svg" alt="down-arrow"></div>
+      <img src="../assets/rotate.svg" alt="undo action" class="undo-action" id="resetBlur">
     </div>
 
   </main>

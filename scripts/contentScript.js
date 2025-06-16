@@ -22,9 +22,9 @@ async function blurContent(data) {
   const main = document.body.querySelector("main");
   const contentSection = await getSectionContent();
 
-  observeDOM(contentSection, (a) => {
-    console.log(contentSection.children);
-  });
+  // observeDOM(contentSection, (a) => {
+  //   console.log(contentSection.children);
+  // });
 }
 
 function getSectionContent() {
