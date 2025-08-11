@@ -1,0 +1,3 @@
+.blur-post {
+  filter: blur(var(--post-blur-amount)) grayscale(var(--post-blur-gray-scale));
+}

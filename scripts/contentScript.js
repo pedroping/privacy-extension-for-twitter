@@ -2,6 +2,8 @@ if (typeof browser == "undefined") {
   globalThis.browser = chrome;
 }
 
+let lastData;
+
 function updateData() {
   browser.storage.sync.get([settingsIdentifier]).then((result) => {
     browser.storage.sync.set(result);
@@ -11,52 +13,36 @@ function updateData() {
 
       if (!data) return;
 
-      blurContent(data);
+      lastData = data;
+      blurContent();
     } catch (err) {
       console.log(err);
     }
   });
 }
 
-async function blurContent(data) {
-  const main = document.body.querySelector("main");
-  const contentSection = await getSectionContent();
-
-  // observeDOM(contentSection, (a) => {
-  //   console.log(contentSection.children);
-  // });
-}
-
-function getSectionContent() {
-  return new Promise((resolve) => {
-    let contentSection = document.body.querySelector(
-      '[aria-labelledby="accessible-list-0"]'
-    );
-
-    if (contentSection) {
-      resolve(contentSection);
-    }
-
-    const interval = setInterval(() => {
-      contentSection = document.body.querySelector(
-        '[aria-labelledby="accessible-list-0"]'
-      );
-
-      if (contentSection) {
-        clearInterval(interval);
-        resolve(contentSection);
-      }
-    }, 1000);
-  });
+async function blurContent() {
+  if (window.location.href.match(/\/home/)?.[0]) homeBlur(lastData);
 }
 
 const settingsIdentifier = "data";
+
+updateData();
 
 browser.storage.onChanged.addListener(() => {
   updateData();
 });
 
-updateData();
+let lastUrl = location.href;
+setInterval(() => {
+  if (location.href !== lastUrl) {
+    lastUrl = location.href;
+
+    if (!lastData) return;
+
+    blurContent();
+  }
+}, 500);
 
 function observeDOM(obj, callback) {
   const MutationObserver =

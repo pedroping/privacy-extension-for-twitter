@@ -25,7 +25,8 @@
   "permissions": ["storage"],
   "content_scripts": [
     {
-      "js": ["scripts/contentScript.js"],
+      "js": ["scripts/contentScript.js", "scripts/home-blur.js"],
+      "css": ["scripts/home-blur.css"],
       "matches": ["https://twitter.com/*", "https://x.com/*"]
     }
   ],

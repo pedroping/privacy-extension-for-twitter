@@ -17,19 +17,20 @@ let initialData = {
     value: false,
     blurAmount: 10,
   },
-  blurProfilePicture: {
-    value: false,
-    blurAmount: 10,
-  },
   blurSearch: {
     value: false,
     blurAmount: 10,
   },
-  blurTextInputs: {
-    value: false,
-    blurAmount: 10,
-  },
 };
+
+// blurTextInputs: {
+//   value: false,
+//   blurAmount: 10,
+// },
+// blurProfilePicture: {
+//   value: false,
+//   blurAmount: 10,
+// },
 
 let selectedData = {
   key: "",
@@ -98,7 +99,11 @@ function initGlobalCheckBoxListener() {
     const checked = event.target.checked;
 
     Object.keys(initialData).forEach((key) => {
+      if (!key) return;
+
       const input = document.querySelector(`input[eventId="${key}"]`);
+
+      if (!input) return;
 
       input.checked = checked;
 
@@ -179,6 +184,10 @@ function intiData() {
 
     const data = JSON.parse(result.data);
 
+    document.getElementById("globalBlur").checked = !Object.keys(data).find(
+      (el) => el && !data[el].value
+    );
+
     initialData = { ...initialData, ...data };
     browser.storage.sync.set(result);
 
@@ -192,12 +201,6 @@ function intiData() {
 
         const button = document.querySelector(`button[eventId="${key}"]`);
         if (button) button.disabled = !initialData[key].value;
-
-        const isAllSelected = Object.keys(initialData).every(
-          (key) => initialData[key].value
-        );
-
-        document.getElementById("globalBlur").checked = isAllSelected;
       }
     );
   });
