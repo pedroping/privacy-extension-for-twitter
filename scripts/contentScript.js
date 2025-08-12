@@ -21,8 +21,9 @@ function updateData() {
   });
 }
 
-async function blurContent() {
-  if (window.location.href.match(/\/home/)?.[0]) homeBlur(lastData);
+function blurContent() {
+  if (window.location.href.match(/\/home/)?.[0]) return homeBlur(lastData);
+  if (window.location.href.match(/\/status/)?.[0]) return postBlur(lastData);
 }
 
 const settingsIdentifier = "data";

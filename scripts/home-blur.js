@@ -1,22 +1,24 @@
 let lastPostsParent;
 let lastTrendingParent;
+let scrollStart = false;
+let scrollCooldownUntil = 0;
 
 function blurPostElements(elements) {
   Array.from(elements).forEach((post) => {
-    if (
-      post.classList.contains("blur-post") ||
-      post.getAttribute("element-init")
-    )
-      return;
+    if (post.getAttribute("element-init")) return;
 
     post.classList.add("blur-post");
     post.setAttribute("element-init", true);
 
     post.addEventListener("mouseenter", () => {
+      if (Date.now() < scrollCooldownUntil) return;
+      if (scrollStart) return;
       post.classList.remove("blur-post");
     });
 
     post.addEventListener("mousemove", () => {
+      if (Date.now() < scrollCooldownUntil) return;
+      if (scrollStart) return;
       post.classList.remove("blur-post");
     });
 
@@ -26,14 +28,35 @@ function blurPostElements(elements) {
   });
 }
 
-function initScrollListner() {
-  window.addEventListener("scroll", () => {
-    if (lastPostsParent && lastPostsParent?.children?.length > 0) {
-      Array.from(lastPostsParent.children).forEach((post) => {
-        post.classList.add("blur-post");
-      });
-    }
-  });
+function initPostsScrollListner() {
+  const debounce = (func, delay) => {
+    let timeoutId;
+
+    return function (...args) {
+      const context = this;
+      scrollStart = true;
+      scrollCooldownUntil = Date.now() + 100;
+
+      clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(() => {
+        scrollStart = false;
+        scrollCooldownUntil = 0;
+        func.apply(context, args);
+      }, delay);
+    };
+  };
+
+  window.addEventListener(
+    "scroll",
+    debounce(() => {
+      if (lastPostsParent && lastPostsParent?.children?.length > 0) {
+        Array.from(lastPostsParent.children).forEach((post) => {
+          post.classList.add("blur-post");
+        });
+      }
+    }, 100)
+  );
 }
 
 function postsBlur(data) {
@@ -43,7 +66,7 @@ function postsBlur(data) {
     return;
   }
 
-  initScrollListner();
+  initPostsScrollListner();
 
   document.body.style.setProperty(
     "--post-blur-amount",
@@ -104,7 +127,7 @@ function TrendingBlur(data) {
     return;
   }
 
-  initScrollListner();
+  initPostScrollListner();
 
   document.body.style.setProperty(
     "--trending-blur-amount",
