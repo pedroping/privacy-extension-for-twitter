@@ -3,35 +3,41 @@ let lastTrendingParent;
 let scrollStart = false;
 let scrollCooldownUntil = 0;
 
+let lastElementHovered;
+
 function blurPostElements(elements) {
   Array.from(elements).forEach((post) => {
     if (post.getAttribute("element-init")) return;
 
-    post.classList.add("blur-post");
+    if (post != lastElementHovered) post.classList.add("blur-post");
     post.setAttribute("element-init", true);
+
+    post.addEventListener("mousemove", () => {
+      if (Date.now() < scrollCooldownUntil) return;
+      if (scrollStart) return;
+
+      post.classList.remove("blur-post");
+      lastElementHovered = post;
+    });
 
     post.addEventListener("mouseenter", () => {
       if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
       post.classList.remove("blur-post");
-    });
-
-    post.addEventListener("mousemove", () => {
-      if (Date.now() < scrollCooldownUntil) return;
-      if (scrollStart) return;
-      post.classList.remove("blur-post");
+      lastElementHovered = post;
     });
 
     post.addEventListener("mouseleave", () => {
       post.classList.add("blur-post");
+      lastElementHovered = null;
     });
   });
 }
 
 function initPostsScrollListner() {
-  const debounce = (func, delay) => {
-    let timeoutId;
+  let timeoutId;
 
+  const debounce = (func, delay) => {
     return function (...args) {
       const context = this;
       scrollStart = true;
@@ -40,8 +46,9 @@ function initPostsScrollListner() {
       clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
+        func.apply(context, args);
+        scrollCooldownUntil = Date.now() + 200;
         scrollStart = false;
-        scrollCooldownUntil = 0;
         func.apply(context, args);
       }, delay);
     };
@@ -52,10 +59,11 @@ function initPostsScrollListner() {
     debounce(() => {
       if (lastPostsParent && lastPostsParent?.children?.length > 0) {
         Array.from(lastPostsParent.children).forEach((post) => {
-          post.classList.add("blur-post");
+          if (post != lastElementHovered) post.classList.add("blur-post");
         });
+        blurPostElements(lastPostsParent.children);
       }
-    }, 100)
+    }, 1)
   );
 }
 
@@ -87,6 +95,9 @@ function postsBlur(data) {
 
     blurPostElements(parent.children);
     observeDOM(parent, () => {
+      if (Date.now() < scrollCooldownUntil) return;
+      if (scrollStart) return;
+
       blurPostElements(parent.children);
     });
   }, 200);
@@ -120,14 +131,12 @@ function blurTrendingElements(elements) {
 
 // Trending blur
 
-function TrendingBlur(data) {
+function trendingBlur(data) {
   if (!data?.blurTrending?.value) {
     document.body.style.setProperty("--trending-blur-amount", "0px");
     document.body.style.setProperty("--trending-blur-gray-scale", "0");
     return;
   }
-
-  initPostScrollListner();
 
   document.body.style.setProperty(
     "--trending-blur-amount",
@@ -136,9 +145,19 @@ function TrendingBlur(data) {
   document.body.style.setProperty("--trending-blur-gray-scale", "1");
 
   setInterval(() => {
-    const parent = document.querySelector(
-      "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-1l8l4mf.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
-    );
+    const parent =
+      document.querySelector(
+        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-1l8l4mf.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
+      ) ||
+      document.querySelector(
+        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-10f7w94.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-1xcajam > div > div > div > div > div:nth-child(4) > section > div > div"
+      ) ||
+      document.querySelector(
+        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-10f7w94.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
+      ) ||
+      document.querySelector(
+        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-1l8l4mf.r-1jocfgc > div > div.css-175oi2r.r-1jocfgc.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
+      );
 
     if (!parent) return;
 
@@ -155,5 +174,5 @@ function TrendingBlur(data) {
 
 function homeBlur(data) {
   postsBlur(data);
-  TrendingBlur(data);
+  trendingBlur(data);
 }
