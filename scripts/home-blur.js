@@ -1,14 +1,14 @@
 let lastPostsParent;
 let scrollStart = false;
 let scrollCooldownUntil = 0;
-
 let lastElementHovered;
+let allPostsList = [];
 
 function blurPostElements(elements) {
   Array.from(elements).forEach((post) => {
     if (post.getAttribute("element-init")) return;
-
     if (post != lastElementHovered) post.classList.add("blur-post");
+
     post.setAttribute("element-init", true);
 
     post.addEventListener("mousemove", () => {
@@ -22,6 +22,7 @@ function blurPostElements(elements) {
     post.addEventListener("mouseenter", () => {
       if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
+
       post.classList.remove("blur-post");
       lastElementHovered = post;
     });
@@ -41,31 +42,46 @@ function initPostsScrollListner() {
 
   const debounce = (func, delay) => {
     return function (event) {
+      event.preventDefault();
       event.stopPropagation();
 
-      const context = this;
       scrollStart = true;
       scrollCooldownUntil = Date.now() + 100;
 
       clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
-        func.apply(context, event);
         scrollCooldownUntil = Date.now() + 250;
-        scrollStart = false;
+        func(event);
       }, delay);
     };
   };
 
+  window.addEventListener("mousemove", (event) => {
+    if (scrollStart) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  });
+
+  window.addEventListener("mouseenter", (event) => {
+    if (scrollStart) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  });
+
   window.addEventListener(
     "scroll",
     debounce(() => {
-      if (lastPostsParent && lastPostsParent?.children?.length > 0) {
-        Array.from(lastPostsParent.children).forEach((post) => {
-          if (post != lastElementHovered) post.classList.add("blur-post");
-        });
-      }
-    }, 1)
+      allPostsList.forEach((post) => {
+        if (post != lastElementHovered) post.classList.add("blur-post");
+      });
+
+      setTimeout(() => {
+        scrollStart = false;
+      }, 250);
+    }, 10)
   );
 }
 
@@ -91,16 +107,19 @@ function postsBlur(data) {
 
     if (!parent) return;
 
-    if (parent == lastPostsParent) return;
+    allPostsList = allPostsList.concat(Array.from(parent.children));
 
+    if (parent == lastPostsParent) return;
     lastPostsParent = parent;
 
-    blurPostElements(parent.children);
+    if (Date.now() >= scrollCooldownUntil && !scrollStart)
+      blurPostElements(parent.children);
+
     observeDOM(parent, () => {
       if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
 
       blurPostElements(parent.children);
     });
-  }, 200);
+  }, 50);
 }
