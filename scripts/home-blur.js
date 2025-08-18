@@ -1,5 +1,4 @@
 let lastPostsParent;
-let lastTrendingParent;
 let scrollStart = false;
 let scrollCooldownUntil = 0;
 
@@ -28,8 +27,11 @@ function blurPostElements(elements) {
     });
 
     post.addEventListener("mouseleave", () => {
-      post.classList.add("blur-post");
       lastElementHovered = null;
+      if (Date.now() < scrollCooldownUntil) return;
+      if (scrollStart) return;
+
+      post.classList.add("blur-post");
     });
   });
 }
@@ -38,7 +40,9 @@ function initPostsScrollListner() {
   let timeoutId;
 
   const debounce = (func, delay) => {
-    return function (...args) {
+    return function (event) {
+      event.stopPropagation();
+
       const context = this;
       scrollStart = true;
       scrollCooldownUntil = Date.now() + 100;
@@ -46,10 +50,9 @@ function initPostsScrollListner() {
       clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
-        func.apply(context, args);
-        scrollCooldownUntil = Date.now() + 200;
+        func.apply(context, event);
+        scrollCooldownUntil = Date.now() + 250;
         scrollStart = false;
-        func.apply(context, args);
       }, delay);
     };
   };
@@ -61,7 +64,6 @@ function initPostsScrollListner() {
         Array.from(lastPostsParent.children).forEach((post) => {
           if (post != lastElementHovered) post.classList.add("blur-post");
         });
-        blurPostElements(lastPostsParent.children);
       }
     }, 1)
   );
@@ -101,78 +103,4 @@ function postsBlur(data) {
       blurPostElements(parent.children);
     });
   }, 200);
-}
-
-function blurTrendingElements(elements) {
-  Array.from(elements).forEach((post, i) => {
-    if (
-      post.classList.contains("blur-trending") ||
-      post.getAttribute("element-init") ||
-      i < 2
-    )
-      return;
-
-    post.classList.add("blur-trending");
-    post.setAttribute("element-init", true);
-
-    post.addEventListener("mouseenter", () => {
-      post.classList.remove("blur-trending");
-    });
-
-    post.addEventListener("mousemove", () => {
-      post.classList.remove("blur-trending");
-    });
-
-    post.addEventListener("mouseleave", () => {
-      post.classList.add("blur-trending");
-    });
-  });
-}
-
-// Trending blur
-
-function trendingBlur(data) {
-  if (!data?.blurTrending?.value) {
-    document.body.style.setProperty("--trending-blur-amount", "0px");
-    document.body.style.setProperty("--trending-blur-gray-scale", "0");
-    return;
-  }
-
-  document.body.style.setProperty(
-    "--trending-blur-amount",
-    (data.blurTrending.blurAmount || 10) + "px"
-  );
-  document.body.style.setProperty("--trending-blur-gray-scale", "1");
-
-  setInterval(() => {
-    const parent =
-      document.querySelector(
-        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-1l8l4mf.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
-      ) ||
-      document.querySelector(
-        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-10f7w94.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-1xcajam > div > div > div > div > div:nth-child(4) > section > div > div"
-      ) ||
-      document.querySelector(
-        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-10f7w94.r-1hycxz > div > div.css-175oi2r.r-1hycxz.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
-      ) ||
-      document.querySelector(
-        "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-aqfbo4.r-1l8l4mf.r-1jocfgc > div > div.css-175oi2r.r-1jocfgc.r-gtdqiz > div > div > div > div > div:nth-child(4) > section > div > div"
-      );
-
-    if (!parent) return;
-
-    if (parent == lastTrendingParent) return;
-
-    lastTrendingParent = parent;
-
-    blurTrendingElements(parent.children);
-    observeDOM(parent, () => {
-      blurTrendingElements(parent.children);
-    });
-  }, 200);
-}
-
-function homeBlur(data) {
-  postsBlur(data);
-  trendingBlur(data);
 }

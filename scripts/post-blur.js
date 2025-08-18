@@ -1,57 +1,71 @@
 let lastPostElement;
 let commentsParent;
+let lastPostHovered;
 
-function postElementListener() {
-  lastPostElement.classList.add("blur-post");
-  lastPostElement.setAttribute("element-init", true);
+function postElementListener(element) {
+  element.classList.add("blur-post");
+  element.setAttribute("element-init", true);
 
-  lastPostElement.addEventListener("mouseenter", () => {
-    lastPostElement.classList.remove("blur-post");
+  element.addEventListener("mouseenter", () => {
+    if (lastPostElement != element) return;
+
+    element.classList.remove("blur-post");
+    lastPostHovered = element;
   });
 
-  lastPostElement.addEventListener("mousemove", () => {
-    lastPostElement.classList.remove("blur-post");
+  element.addEventListener("mousemove", () => {
+    if (lastPostElement != element) return;
+
+    element.classList.remove("blur-post");
+    lastPostHovered = element;
   });
 
-  lastPostElement.addEventListener("mouseleave", () => {
-    lastPostElement.classList.add("blur-post");
+  element.addEventListener("mouseleave", () => {
+    if (lastPostElement != element) return;
+
+    element.classList.add("blur-post");
+    lastPostHovered = null;
   });
 }
 
 function commentsElementListener(elements) {
-  Array.from(elements).forEach((post) => {
+  Array.from(elements).forEach((post, i) => {
+    if (i == 0) return;
+
     if (
       post.classList.contains("blur-post") ||
       post.getAttribute("element-init")
     )
       return;
-
     post.classList.add("blur-post");
     post.setAttribute("element-init", true);
-
     post.addEventListener("mouseenter", () => {
       post.classList.remove("blur-post");
+      lastPostHovered = post;
     });
-
     post.addEventListener("mousemove", () => {
       post.classList.remove("blur-post");
+      lastPostHovered = post;
     });
-
     post.addEventListener("mouseleave", () => {
       post.classList.add("blur-post");
+      lastPostHovered = null;
     });
   });
 }
 
 function initPostScrollListner() {
   window.addEventListener("scroll", () => {
-    if (lastPostElement) {
+    if (lastPostElement && lastPostElement != lastPostHovered) {
       lastPostElement.classList.add("blur-post");
     }
 
     if (commentsParent && commentsParent?.children?.length > 0) {
-      Array.from(commentsParent.children).forEach((post) => {
-        post.classList.add("blur-post");
+      Array.from(commentsParent.children).forEach((post, i) => {
+        if (i == 0) return;
+
+        if (post != lastPostHovered && post != lastPostElement)
+          post.classList.add("blur-post");
       });
     }
   });
@@ -88,8 +102,17 @@ function mainSectionBlur() {
 
     if (parent == lastPostElement) return;
 
+    if (lastPostElement == lastPostHovered) {
+      lastPostElement?.classList?.remove("blur-post");
+      lastPostHovered = parent;
+      lastPostElement = parent;
+
+      postElementListener(lastPostElement);
+      return;
+    }
+
     lastPostElement = parent;
-    postElementListener();
+    postElementListener(lastPostElement);
   }, 200);
 }
 

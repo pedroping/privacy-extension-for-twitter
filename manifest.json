@@ -29,6 +29,7 @@
         "scripts/home-blur.js",
         "scripts/post-blur.js",
         "scripts/photo-blur.js",
+        "scripts/trendingBlur.js",
         "scripts/contentScript.js"
       ],
       "css": ["scripts/home-blur.css"],
