@@ -30,9 +30,9 @@
         "scripts/post-blur.js",
         "scripts/photo-blur.js",
         "scripts/trendingBlur.js",
-        "scripts/contentScript.js"
+        "contentScript.js"
       ],
-      "css": ["scripts/home-blur.css"],
+      "css": ["styles/home-blur.css"],
       "matches": ["https://twitter.com/*", "https://x.com/*"]
     }
   ],
