@@ -80,11 +80,11 @@ function initAllCheckboxListener() {
         const button = document.querySelector(`button[eventId="${key}"]`);
         if (button) button.disabled = !value;
 
-        const isAllSelected = Object.keys(initialData).every(
+        const isAnySelected = Object.keys(initialData).some(
           (key) => initialData[key].value
         );
 
-        document.getElementById("globalBlur").checked = isAllSelected;
+        document.getElementById("globalBlur").checked = isAnySelected;
 
         browser.storage.sync.set({
           data: JSON.stringify(initialData),
