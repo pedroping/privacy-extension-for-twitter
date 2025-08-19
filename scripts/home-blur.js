@@ -80,7 +80,7 @@ function initPostsScrollListner() {
 
       setTimeout(() => {
         scrollStart = false;
-      }, 250);
+      }, 100);
     }, 10)
   );
 }
@@ -112,8 +112,7 @@ function postsBlur(data) {
     if (parent == lastPostsParent) return;
     lastPostsParent = parent;
 
-    if (Date.now() >= scrollCooldownUntil && !scrollStart)
-      blurPostElements(parent.children);
+    blurPostElements(parent.children);
 
     observeDOM(parent, () => {
       if (Date.now() < scrollCooldownUntil) return;

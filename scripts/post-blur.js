@@ -3,6 +3,13 @@ let commentsParent;
 let lastPostHovered;
 
 function postElementListener(element) {
+  if (
+    element.parentElement?.parentElement?.parentElement.classList.contains(
+      "blur-post"
+    )
+  )
+    return;
+    
   element.classList.add("blur-post");
   element.setAttribute("element-init", true);
 
