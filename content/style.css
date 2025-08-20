@@ -1,8 +1,8 @@
 body {
   display: flex;
   flex-direction: column;
-  width: 285px;
-  min-width: 285px;
+  width: 195px;
+  min-width: 195px;
 }
 
 main {
