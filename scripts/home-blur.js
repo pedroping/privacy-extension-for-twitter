@@ -1,83 +1,89 @@
 let lastPostsParent;
-let lastElementHovered;
 let allPostsList = [];
 
 globalThis.scrollStart = false;
+globalThis.lastElementHovered = null;
+
+function blurFn(post, action) {
+  let timeOut = false;
+
+  return () => {
+    if (action == "add") globalThis.lastElementHovered = null;
+    if (timeOut) return;
+
+    timeOut = true;
+
+    setTimeout(() => {
+      timeOut = false;
+
+      if (globalThis.scrollStart) return;
+
+      post.classList[action]("blur-post");
+      globalThis.lastElementHovered = post;
+    }, 50);
+  };
+}
 
 function blurPostElements(elements) {
   allPostsList.forEach((post) => {
-    if (post != lastElementHovered) post.classList.add("blur-post");
+    if (post != globalThis.lastElementHovered) post.classList.add("blur-post");
   });
 
   Array.from(elements).forEach((post) => {
-    if (post.getAttribute("element-init")) return;
-    if (post != lastElementHovered) post.classList.add("blur-post");
+    if (post.getAttribute("element-init") || allPostsList.includes(post))
+      return;
+    if (post != globalThis.lastElementHovered) post.classList.add("blur-post");
+
+    allPostsList.push(post);
 
     post.setAttribute("element-init", true);
-
-    post.addEventListener("mousemove", () => {
-      if (globalThis.scrollStart) return;
-
-      post.classList.remove("blur-post");
-      lastElementHovered = post;
-    });
-
-    post.addEventListener("mouseenter", () => {
-      if (globalThis.scrollStart) return;
-
-      post.classList.remove("blur-post");
-      lastElementHovered = post;
-    });
-
-    post.addEventListener("mouseleave", () => {
-      lastElementHovered = null;
-      if (globalThis.scrollStart) return;
-
-      post.classList.add("blur-post");
-    });
+    post.addEventListener("mouseenter", blurFn(post, "remove"));
+    post.addEventListener("mousemove", blurFn(post, "remove"));
+    post.addEventListener("mouseleave", blurFn(post, "add"));
   });
 }
 
-function initPostsScrollListner() {
-  function debounce(func, wait) {
-    var timeout;
+function debounce(func, wait) {
+  var timeout;
 
+  return function () {
+    var context = this,
+      args = arguments;
+
+    globalThis.scrollStart = true;
     allPostsList.forEach((post) => {
-      if (post != lastElementHovered) post.classList.add("blur-post");
+      if (post != globalThis.lastElementHovered)
+        post.classList.add("blur-post");
     });
 
-    return function () {
-      var context = this,
-        args = arguments;
-
-      globalThis.scrollStart = true;
-
-      var later = function () {
-        timeout = null;
-        func.apply(context, args);
-      };
-      var callNow = !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
+    var later = function () {
+      timeout = null;
+      func.apply(context, args);
     };
-  }
+    var callNow = !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 
+function initPostsScrollListner() {
   window.addEventListener(
     "scroll",
-    debounce(() => {
-      globalThis.scrollStart = false;
+    debounce(
+      () => {
+        globalThis.scrollStart = false;
 
-      allPostsList.forEach((post) => {
-        if (post != lastElementHovered) post.classList.add("blur-post");
-      });
-
-      setTimeout(() => {
-        allPostsList.forEach((post) => {
-          if (post != lastElementHovered) post.classList.add("blur-post");
-        });
-      }, 1);
-    }, 250)
+        setTimeout(() => {
+          allPostsList.forEach((post) => {
+            if (post != globalThis.lastElementHovered)
+              post.classList.add("blur-post");
+          });
+        }, 1);
+      },
+      500,
+      true
+    )
   );
 }
 
@@ -103,24 +109,12 @@ function postsBlur(data) {
 
     if (!parent) return;
 
-    allPostsList = allPostsList.concat(Array.from(parent.children));
-
     if (parent == lastPostsParent) return;
     lastPostsParent = parent;
 
-    allPostsList.forEach((post) => {
-      if (post != lastElementHovered) post.classList.add("blur-post");
-    });
-
-    if (!globalThis.scrollStart) blurPostElements(parent.children);
+    blurPostElements(parent.children);
 
     observeDOM(parent, () => {
-      allPostsList.forEach((post) => {
-        if (post != lastElementHovered) post.classList.add("blur-post");
-      });
-
-      if (globalThis.scrollStart) return;
-
       blurPostElements(parent.children);
     });
   }, 50);
