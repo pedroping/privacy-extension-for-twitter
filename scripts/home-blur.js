@@ -5,6 +5,10 @@ let lastElementHovered;
 let allPostsList = [];
 
 function blurPostElements(elements) {
+  allPostsList.forEach((post) => {
+    if (post != lastElementHovered) post.classList.add("blur-post");
+  });
+
   Array.from(elements).forEach((post) => {
     if (post.getAttribute("element-init")) return;
     if (post != lastElementHovered) post.classList.add("blur-post");
@@ -12,7 +16,6 @@ function blurPostElements(elements) {
     post.setAttribute("element-init", true);
 
     post.addEventListener("mousemove", () => {
-      if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
 
       post.classList.remove("blur-post");
@@ -20,7 +23,6 @@ function blurPostElements(elements) {
     });
 
     post.addEventListener("mouseenter", () => {
-      if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
 
       post.classList.remove("blur-post");
@@ -29,7 +31,6 @@ function blurPostElements(elements) {
 
     post.addEventListener("mouseleave", () => {
       lastElementHovered = null;
-      if (Date.now() < scrollCooldownUntil) return;
       if (scrollStart) return;
 
       post.classList.add("blur-post");
@@ -38,50 +39,36 @@ function blurPostElements(elements) {
 }
 
 function initPostsScrollListner() {
-  let timeoutId;
-
-  const debounce = (func, delay) => {
-    return function (event) {
-      event.preventDefault();
-      event.stopPropagation();
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+      var context = this,
+        args = arguments;
 
       scrollStart = true;
-      scrollCooldownUntil = Date.now() + 100;
+      scrollCooldownUntil = Date.now() + 250;
 
-      clearTimeout(timeoutId);
-
-      timeoutId = setTimeout(() => {
+      var later = function () {
+        timeout = null;
         scrollCooldownUntil = Date.now() + 250;
-        func(event);
-      }, delay);
+
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
     };
-  };
-
-  window.addEventListener("mousemove", (event) => {
-    if (scrollStart) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  });
-
-  window.addEventListener("mouseenter", (event) => {
-    if (scrollStart) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  });
+  }
 
   window.addEventListener(
     "scroll",
     debounce(() => {
+      scrollStart = false;
       allPostsList.forEach((post) => {
         if (post != lastElementHovered) post.classList.add("blur-post");
       });
-
-      setTimeout(() => {
-        scrollStart = false;
-      }, 100);
-    }, 10)
+    }, 200)
   );
 }
 
@@ -112,10 +99,17 @@ function postsBlur(data) {
     if (parent == lastPostsParent) return;
     lastPostsParent = parent;
 
-    blurPostElements(parent.children);
+    allPostsList.forEach((post) => {
+      if (post != lastElementHovered) post.classList.add("blur-post");
+    });
+
+    if (!scrollStart) blurPostElements(parent.children);
 
     observeDOM(parent, () => {
-      if (Date.now() < scrollCooldownUntil) return;
+      allPostsList.forEach((post) => {
+        if (post != lastElementHovered) post.classList.add("blur-post");
+      });
+
       if (scrollStart) return;
 
       blurPostElements(parent.children);

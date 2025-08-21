@@ -101,9 +101,6 @@ function photoCommentsBlur() {
     blurPhotoComments(parent.children);
 
     observeDOM(parent, () => {
-      if (Date.now() < scrollCooldownUntil) return;
-      if (scrollStart) return;
-
       blurPhotoComments(parent.children);
     });
   }, 50);
