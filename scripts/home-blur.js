@@ -1,6 +1,5 @@
 let lastPostsParent;
 let scrollStart = false;
-let scrollCooldownUntil = 0;
 let lastElementHovered;
 let allPostsList = [];
 
@@ -46,12 +45,9 @@ function initPostsScrollListner() {
         args = arguments;
 
       scrollStart = true;
-      scrollCooldownUntil = Date.now() + 250;
 
       var later = function () {
         timeout = null;
-        scrollCooldownUntil = Date.now() + 250;
-
         if (!immediate) func.apply(context, args);
       };
       var callNow = immediate && !timeout;
