@@ -6,9 +6,20 @@ globalThis.lastElementHovered = null;
 
 function blurFn(post, action) {
   let timeOut = false;
+  let onFirst = true;
 
   return () => {
-    if (action == "add") globalThis.lastElementHovered = null;
+    if (action == "add") {
+      globalThis.lastElementHovered?.classList?.add("blur-post");
+      globalThis.lastElementHovered = null;
+    }
+
+    if (onFirst) {
+      setTimeout(() => {
+        onFirst = false;
+      }, 10);
+      return;
+    }
     if (timeOut) return;
 
     timeOut = true;
@@ -20,7 +31,7 @@ function blurFn(post, action) {
 
       post.classList[action]("blur-post");
       globalThis.lastElementHovered = post;
-    }, 50);
+    }, 10);
   };
 }
 
@@ -81,7 +92,7 @@ function initPostsScrollListner() {
           });
         }, 1);
       },
-      500,
+      200,
       true
     )
   );
