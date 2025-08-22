@@ -26,10 +26,10 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/home-blur.js",
         "scripts/post-blur.js",
         "scripts/photo-blur.js",
         "scripts/trendingBlur.js",
+        "scripts/default-blur.js",
         "contentScript.js"
       ],
       "css": ["styles/home-blur.css"],
