@@ -1,8 +1,0 @@
-.blur-post {
-  filter: blur(var(--post-blur-amount)) grayscale(var(--post-blur-gray-scale));
-}
-
-.blur-trending {
-  filter: blur(var(--trending-blur-amount))
-    grayscale(var(--trending-blur-gray-scale));
-}

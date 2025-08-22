@@ -1,0 +1,23 @@
+.blur-post {
+  filter: blur(var(--post-blur-amount)) grayscale(var(--post-blur-gray-scale));
+}
+
+.blur-communities {
+  filter: blur(var(--communities-blur-amount))
+    grayscale(var(--communities-blur-gray-scale));
+}
+
+.blur-bookmarks {
+  filter: blur(var(--bookmarks-blur-amount))
+    grayscale(var(--bookmarks-blur-gray-scale));
+}
+
+.blur-explore {
+  filter: blur(var(--explore-blur-amount))
+    grayscale(var(--explore-blur-gray-scale));
+}
+
+.blur-trending {
+  filter: blur(var(--trending-blur-amount))
+    grayscale(var(--trending-blur-gray-scale));
+}

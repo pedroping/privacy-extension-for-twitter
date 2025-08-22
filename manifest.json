@@ -32,7 +32,7 @@
         "scripts/default-blur.js",
         "contentScript.js"
       ],
-      "css": ["styles/home-blur.css"],
+      "css": ["styles/blur.css"],
       "matches": ["https://twitter.com/*", "https://x.com/*"]
     }
   ],

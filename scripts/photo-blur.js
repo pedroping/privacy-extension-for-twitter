@@ -75,4 +75,5 @@ function photoBlur(data) {
 
   imagesBlur();
   photoCommentsBlur.initBlur(data);
+  disableOtherBlurs(photoCommentsBlur);
 }

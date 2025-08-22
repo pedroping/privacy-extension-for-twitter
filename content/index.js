@@ -21,6 +21,18 @@ let initialData = {
     value: false,
     blurAmount: 10,
   },
+  blurCommunities: {
+    value: false,
+    blurAmount: 10,
+  },
+  blurBookmarks: {
+    value: false,
+    blurAmount: 10,
+  },
+  blurExplore: {
+    value: false,
+    blurAmount: 10,
+  },
 };
 
 // blurTextInputs: {
@@ -184,8 +196,8 @@ function intiData() {
 
     const data = JSON.parse(result.data);
 
-    document.getElementById("globalBlur").checked = !Object.keys(data).find(
-      (el) => el && !data[el].value
+    document.getElementById("globalBlur").checked = Object.keys(data).find(
+      (el) => el && data?.[el]?.value
     );
 
     initialData = { ...initialData, ...data };
