@@ -73,7 +73,8 @@ function photoBlur(data) {
   );
   document.body.style.setProperty("--post-blur-gray-scale", "1");
 
+  disableOtherBlurs(photoCommentsBlur);
+  
   imagesBlur();
   photoCommentsBlur.initBlur(data);
-  disableOtherBlurs(photoCommentsBlur);
 }

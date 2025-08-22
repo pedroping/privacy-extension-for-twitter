@@ -75,9 +75,14 @@ class DefaultBlur {
 
     if (!withouCheck) this.blurStart = false;
     if (this.interval) clearInterval(this.interval);
-    
+
     this.observer?.disconnect?.();
     this.lastPostsParent = null;
+
+    this.allPostsList.forEach((post) =>
+      post.classList.remove(`blur-${this.cssClass}`)
+    );
+
     this.allPostsList = [];
     this.lastElementHovered = null;
   }

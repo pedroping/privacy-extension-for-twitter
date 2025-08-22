@@ -149,10 +149,10 @@ function blurContent() {
   initBlurClasses();
 
   if (window.location.href.match(/\/home/)?.[0]) {
-    trendingBlur(lastData);
-
-    homeBlur.initBlur(lastData);
     disableOtherBlurs(homeBlur);
+
+    trendingBlur(lastData);
+    homeBlur.initBlur(lastData);
     return;
   }
 
@@ -170,24 +170,24 @@ function blurContent() {
       /^https?:\/\/(?:x|twitter)\.com\/[^\/]+\/communities\//
     )?.[0]
   ) {
+    disableOtherBlurs(communitiesBlur);
+
     communitiesBlur.initBlur(lastData);
     trendingBlur(lastData, "communities");
-    disableOtherBlurs(communitiesBlur);
     return;
   }
 
   if (window.location.href.match(/\/bookmarks/)?.[0]) {
+    disableOtherBlurs(bookmarksBlur);
+
     bookmarksBlur.initBlur(lastData);
     trendingBlur(lastData, "bookmarks");
-    disableOtherBlurs(bookmarksBlur);
     return;
   }
 
   if (window.location.href.match(/\/explore/)?.[0]) {
-    console.log("here");
-
-    exploreBlur.initBlur(lastData);
     disableOtherBlurs(exploreBlur);
+    exploreBlur.initBlur(lastData);
     return;
   }
 }
