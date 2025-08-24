@@ -79,10 +79,12 @@ class DefaultBlur {
     this.observer?.disconnect?.();
     this.lastPostsParent = null;
 
-    this.allPostsList.forEach((post) =>
-      post.classList.remove(`blur-${this.cssClass}`)
-    );
+    if (withouCheck) return;
 
+    this.allPostsList.forEach((post) => {
+      post.classList.remove(`blur-${this.cssClass}`);
+      post.removeAttribute("element-init");
+    });
     this.allPostsList = [];
     this.lastElementHovered = null;
   }
