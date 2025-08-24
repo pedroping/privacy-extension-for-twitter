@@ -72,8 +72,6 @@ function photoBlur(data) {
     (data.blurPost.blurAmount || 10) + "px"
   );
   document.body.style.setProperty("--post-blur-gray-scale", "1");
-
-  disableOtherBlurs(photoCommentsBlur);
   
   imagesBlur();
   photoCommentsBlur.initBlur(data);

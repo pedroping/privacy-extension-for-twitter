@@ -12,23 +12,23 @@ class DefaultBlur {
   dataKey;
   cssClass;
   getParentFn;
-  listBlurFn;
-  customListValidation;
+  hasTrending;
+  hasMessages;
 
   constructor(
     _data,
     _dataKey,
     _cssClass,
     _getParentFn,
-    _listBlurFn = this.defaultListBlurFn,
-    _customListValidation = null
+    _hasTrending = "",
+    _hasMessages = false
   ) {
     this.data = _data;
     this.dataKey = _dataKey;
     this.cssClass = _cssClass;
     this.getParentFn = _getParentFn;
-    this.listBlurFn = _listBlurFn;
-    this.customListValidation = _customListValidation;
+    this.hasTrending = _hasTrending;
+    this.hasMessages = _hasMessages;
 
     this.initPostsScrollListner();
   }
@@ -36,6 +36,9 @@ class DefaultBlur {
   initBlur(_data) {
     this.data = _data;
     this.blurStart = true;
+    disableOtherBlurs(this);
+
+    if (this.hasTrending) trendingBlur(_data, this.hasTrending);
 
     if (!this.data?.[this.dataKey]?.value) {
       document.body.style.setProperty(`--${this.cssClass}-blur-amount`, "0px");
@@ -89,11 +92,6 @@ class DefaultBlur {
     this.lastElementHovered = null;
   }
 
-  defaultListBlurFn(post) {
-    if (post != this.lastElementHovered)
-      post.classList.add(`blur-${this.cssClass}`);
-  }
-
   debounce(func, wait) {
     var timeout;
 
@@ -101,7 +99,10 @@ class DefaultBlur {
       var args = arguments;
 
       this.scrollStart = true;
-      this.allPostsList.forEach(this.listBlurFn.bind(this));
+      this.allPostsList.forEach((post) => {
+        if (post != this.lastElementHovered)
+          post.classList.add(`blur-${this.cssClass}`);
+      });
 
       var later = function () {
         timeout = null;
@@ -121,7 +122,10 @@ class DefaultBlur {
         this.scrollStart = false;
 
         setTimeout(() => {
-          this.allPostsList.forEach(this.listBlurFn.bind(this));
+          this.allPostsList.forEach((post) => {
+            if (post != this.lastElementHovered)
+              post.classList.add(`blur-${this.cssClass}`);
+          });
         }, 1);
       }, 200)
     );
@@ -160,15 +164,12 @@ class DefaultBlur {
   }
 
   blurPostElements(elements) {
-    this.allPostsList.forEach(this.listBlurFn.bind(this));
+    this.allPostsList.forEach((post) => {
+      if (post != this.lastElementHovered)
+        post.classList.add(`blur-${this.cssClass}`);
+    });
 
-    Array.from(elements).forEach((post, i) => {
-      if (
-        this.customListValidation &&
-        this.customListValidation.apply(this, post, i)
-      )
-        return;
-
+    Array.from(elements).forEach((post) => {
       if (post.getAttribute("element-init") || this.allPostsList.includes(post))
         return;
 

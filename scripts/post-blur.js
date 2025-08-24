@@ -82,8 +82,6 @@ function postBlur(data) {
   );
   document.body.style.setProperty("--post-blur-gray-scale", "1");
 
-  disableOtherBlurs(postCommentsBlur);
-
   mainSectionBlur();
   postCommentsBlur.initBlur(data);
 }

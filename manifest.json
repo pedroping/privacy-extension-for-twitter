@@ -30,6 +30,7 @@
         "scripts/photo-blur.js",
         "scripts/trendingBlur.js",
         "scripts/default-blur.js",
+        "scripts/message-blur.js",
         "contentScript.js"
       ],
       "css": ["styles/blur.css"],

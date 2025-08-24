@@ -44,7 +44,13 @@ const getExploreParentFn = () =>
 
 function initBlurClasses() {
   if (!homeBlur)
-    homeBlur = new DefaultBlur(lastData, "blurPost", "post", getHomeParentFn);
+    homeBlur = new DefaultBlur(
+      lastData,
+      "blurPost",
+      "post",
+      getHomeParentFn,
+      "posts"
+    );
 
   if (!photoCommentsBlur)
     photoCommentsBlur = new DefaultBlur(
@@ -59,7 +65,8 @@ function initBlurClasses() {
       lastData,
       "blurPost",
       "post",
-      getPostCommentsParentFn
+      getPostCommentsParentFn,
+      "post"
     );
 
   if (!communitiesBlur)
@@ -67,7 +74,8 @@ function initBlurClasses() {
       lastData,
       "blurCommunities",
       "communities",
-      getCommunitiesParentFn
+      getCommunitiesParentFn,
+      "communities"
     );
 
   if (!bookmarksBlur)
@@ -75,7 +83,8 @@ function initBlurClasses() {
       lastData,
       "blurBookmarks",
       "bookmarks",
-      getBookmarksParentFn
+      getBookmarksParentFn,
+      "bookmarks"
     );
 
   if (!exploreBlur)
@@ -148,48 +157,25 @@ function observeDOM(obj, callback) {
 function blurContent() {
   initBlurClasses();
 
-  if (window.location.href.match(/\/home/)?.[0]) {
-    disableOtherBlurs(homeBlur);
-
-    trendingBlur(lastData);
-    homeBlur.initBlur(lastData);
-    return;
-  }
+  if (window.location.href.match(/\/home/)?.[0])
+    return homeBlur.initBlur(lastData);
 
   if (window.location.href.match(/\/photo/)?.[0]) return photoBlur(lastData);
 
-  if (window.location.href.match(/\/status/)?.[0]) {
-    postBlur(lastData);
-    trendingBlur(lastData, "post");
-
-    return;
-  }
+  if (window.location.href.match(/\/status/)?.[0]) return postBlur(lastData);
 
   if (
     window.location.href.match(
       /^https?:\/\/(?:x|twitter)\.com\/[^\/]+\/communities\//
     )?.[0]
-  ) {
-    disableOtherBlurs(communitiesBlur);
+  )
+    return communitiesBlur.initBlur(lastData);
 
-    communitiesBlur.initBlur(lastData);
-    trendingBlur(lastData, "communities");
-    return;
-  }
+  if (window.location.href.match(/\/bookmarks/)?.[0])
+    return bookmarksBlur.initBlur(lastData);
 
-  if (window.location.href.match(/\/bookmarks/)?.[0]) {
-    disableOtherBlurs(bookmarksBlur);
-
-    bookmarksBlur.initBlur(lastData);
-    trendingBlur(lastData, "bookmarks");
-    return;
-  }
-
-  if (window.location.href.match(/\/explore/)?.[0]) {
-    disableOtherBlurs(exploreBlur);
-    exploreBlur.initBlur(lastData);
-    return;
-  }
+  if (window.location.href.match(/\/explore/)?.[0])
+    return exploreBlur.initBlur(lastData);
 }
 
 updateData();

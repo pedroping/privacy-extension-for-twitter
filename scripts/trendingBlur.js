@@ -90,6 +90,7 @@ function getListOnBookmarks() {
 
 const listParentOptions = {
   default: () => getListOnHome(),
+  posts: () => getListOnHome(),
   post: () => getListOnPost(),
   communities: () => getListOnCommunities(),
   bookmarks: () => getListOnBookmarks(),
