@@ -5,6 +5,8 @@ let postCommentsBlur;
 let communitiesBlur;
 let bookmarksBlur;
 let exploreBlur;
+let messagesBlur;
+let messagesOptionsBlur;
 
 const settingsIdentifier = "data";
 
@@ -42,6 +44,16 @@ const getExploreParentFn = () =>
     "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div.css-175oi2r.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div"
   );
 
+const getMessagesOptionsFn = () =>
+  document.querySelector(
+    "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > section.css-175oi2r.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-1udh08x.r-13awgt0.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div > div.css-175oi2r.r-kemksi.r-16y2uox.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div"
+  );
+
+const getMessagesFn = () =>
+  document.querySelector(
+    "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > section:nth-child(2) > div > div > div.css-175oi2r.r-16y2uox.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div.r-6koalj.r-eqz5dr.r-16y2uox > div > div > div > div.css-175oi2r.r-150rngu.r-kemksi.r-11yh6sk.r-lqr4d2.r-11uj9h2.r-ouzzow.r-16y2uox.r-1pi2tsx > div > div"
+  );
+
 function initBlurClasses() {
   if (!homeBlur)
     homeBlur = new DefaultBlur(
@@ -49,7 +61,8 @@ function initBlurClasses() {
       "blurPost",
       "post",
       getHomeParentFn,
-      "posts"
+      "posts",
+      true
     );
 
   if (!photoCommentsBlur)
@@ -66,7 +79,8 @@ function initBlurClasses() {
       "blurPost",
       "post",
       getPostCommentsParentFn,
-      "post"
+      "post",
+      true
     );
 
   if (!communitiesBlur)
@@ -75,7 +89,8 @@ function initBlurClasses() {
       "blurCommunities",
       "communities",
       getCommunitiesParentFn,
-      "communities"
+      "communities",
+      true
     );
 
   if (!bookmarksBlur)
@@ -84,7 +99,8 @@ function initBlurClasses() {
       "blurBookmarks",
       "bookmarks",
       getBookmarksParentFn,
-      "bookmarks"
+      "bookmarks",
+      true
     );
 
   if (!exploreBlur)
@@ -92,11 +108,33 @@ function initBlurClasses() {
       lastData,
       "blurExplore",
       "explore",
-      getExploreParentFn
+      getExploreParentFn,
+      null,
+      true
+    );
+
+  if (!messagesOptionsBlur)
+    messagesOptionsBlur = new DefaultBlur(
+      lastData,
+      "blurMessage",
+      "message-option",
+      getMessagesOptionsFn,
+      null,
+      false
+    );
+
+  if (!messagesBlur)
+    messagesBlur = new DefaultBlur(
+      lastData,
+      "blurMessage",
+      "messages",
+      getMessagesFn,
+      null,
+      false
     );
 }
 
-function disableOtherBlurs(actualBlur) {
+function disableOtherBlurs(actualBlur, relatedClass = null) {
   [
     homeBlur,
     photoCommentsBlur,
@@ -104,8 +142,10 @@ function disableOtherBlurs(actualBlur) {
     communitiesBlur,
     bookmarksBlur,
     exploreBlur,
+    messagesOptionsBlur,
+    messagesBlur,
   ]
-    .filter((blurClass) => blurClass != actualBlur)
+    .filter((blurClass) => blurClass != actualBlur && blurClass != relatedClass)
     .forEach((blurClass) => blurClass?.disable?.());
 }
 
@@ -176,6 +216,14 @@ function blurContent() {
 
   if (window.location.href.match(/\/explore/)?.[0])
     return exploreBlur.initBlur(lastData);
+
+  if (
+    window.location.href.match(/\/messages/)?.[0]
+  ) {
+    messagesBlur.initBlur(lastData, messagesOptionsBlur);
+    messagesOptionsBlur.initBlur(lastData, messagesBlur);
+    return;
+  }
 }
 
 updateData();

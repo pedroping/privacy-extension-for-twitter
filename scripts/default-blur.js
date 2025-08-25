@@ -33,12 +33,13 @@ class DefaultBlur {
     this.initPostsScrollListner();
   }
 
-  initBlur(_data) {
+  initBlur(_data, relatedClass = null) {
     this.data = _data;
     this.blurStart = true;
-    disableOtherBlurs(this);
+    disableOtherBlurs(this, relatedClass);
 
     if (this.hasTrending) trendingBlur(_data, this.hasTrending);
+    if (this.hasMessages) initMessageDropdownBlur(_data);
 
     if (!this.data?.[this.dataKey]?.value) {
       document.body.style.setProperty(`--${this.cssClass}-blur-amount`, "0px");

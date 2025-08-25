@@ -21,3 +21,22 @@
   filter: blur(var(--trending-blur-amount))
     grayscale(var(--trending-blur-gray-scale));
 }
+
+.blur-message {
+  filter: blur(var(--message-blur-amount))
+    grayscale(var(--message-blur-gray-scale));
+}
+
+.blur-message-option {
+  filter: blur(var(--message-option-blur-amount))
+    grayscale(var(--message-option-blur-gray-scale));
+}
+
+.blur-message-option:first-of-type {
+  filter: none !important;
+}
+
+.blur-messages {
+  filter: blur(var(--messages-blur-amount))
+    grayscale(var(--messages-blur-gray-scale));
+}
