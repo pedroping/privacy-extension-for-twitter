@@ -101,7 +101,7 @@ class DefaultBlur {
 
       this.scrollStart = true;
       this.allPostsList.forEach((post) => {
-        if (post != this.lastElementHovered)
+        if (this.data?.blurOnScroll?.value || post != this.lastElementHovered)
           post.classList.add(`blur-${this.cssClass}`);
       });
 
@@ -124,7 +124,7 @@ class DefaultBlur {
 
         setTimeout(() => {
           this.allPostsList.forEach((post) => {
-            if (post != this.lastElementHovered)
+            if (this.data?.blurOnScroll?.value || post != this.lastElementHovered)
               post.classList.add(`blur-${this.cssClass}`);
           });
         }, 1);
@@ -166,7 +166,7 @@ class DefaultBlur {
 
   blurPostElements(elements) {
     this.allPostsList.forEach((post) => {
-      if (post != this.lastElementHovered)
+      if (this.data?.blurOnScroll?.value || post != this.lastElementHovered)
         post.classList.add(`blur-${this.cssClass}`);
     });
 
@@ -174,7 +174,7 @@ class DefaultBlur {
       if (post.getAttribute("element-init") || this.allPostsList.includes(post))
         return;
 
-      if (post != this.lastElementHovered)
+      if (this.data?.blurOnScroll?.value || post != this.lastElementHovered)
         post.classList.add(`blur-${this.cssClass}`);
 
       this.allPostsList.push(post);

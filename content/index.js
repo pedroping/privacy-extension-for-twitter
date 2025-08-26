@@ -33,6 +33,10 @@ let initialData = {
     value: false,
     blurAmount: 10,
   },
+  blurOnScroll: {
+    value: false,
+    blurAmount: 0,
+  },
 };
 
 // blurTextInputs: {
