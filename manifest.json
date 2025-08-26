@@ -1,6 +1,6 @@
 {
   "name": "Privacy Extension for Twitter",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "Privacy Extension for Twitter, blur your timeline.",
   "manifest_version": 3,
   "author": "PedroPing",
