@@ -37,6 +37,10 @@ let initialData = {
     value: false,
     blurAmount: 0,
   },
+  blurNotifications: {
+    value: false,
+    blurAmount: 0,
+  },
 };
 
 // blurTextInputs: {

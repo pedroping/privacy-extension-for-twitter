@@ -7,6 +7,7 @@ let bookmarksBlur;
 let exploreBlur;
 let messagesBlur;
 let messagesOptionsBlur;
+let notificationsBlur;
 
 const settingsIdentifier = "data";
 
@@ -52,6 +53,11 @@ const getMessagesOptionsFn = () =>
 const getMessagesFn = () =>
   document.querySelector(
     "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > section:nth-child(2) > div > div > div.css-175oi2r.r-16y2uox.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div.r-6koalj.r-eqz5dr.r-16y2uox > div > div > div > div.css-175oi2r.r-150rngu.r-kemksi.r-11yh6sk.r-lqr4d2.r-11uj9h2.r-ouzzow.r-16y2uox.r-1pi2tsx > div > div"
+  );
+
+const getNotificationsFn = () =>
+  document.querySelector(
+    "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div.css-175oi2r.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div"
   );
 
 function initBlurClasses() {
@@ -132,6 +138,16 @@ function initBlurClasses() {
       null,
       false
     );
+
+  if (!notificationsBlur)
+    notificationsBlur = new DefaultBlur(
+      lastData,
+      "blurNotifications",
+      "notifications",
+      getNotificationsFn,
+      "notifications",
+      true
+    );
 }
 
 function disableOtherBlurs(actualBlur, relatedClass = null) {
@@ -144,6 +160,7 @@ function disableOtherBlurs(actualBlur, relatedClass = null) {
     exploreBlur,
     messagesOptionsBlur,
     messagesBlur,
+    notificationsBlur,
   ]
     .filter((blurClass) => blurClass != actualBlur && blurClass != relatedClass)
     .forEach((blurClass) => blurClass?.disable?.());
@@ -217,13 +234,14 @@ function blurContent() {
   if (window.location.href.match(/\/explore/)?.[0])
     return exploreBlur.initBlur(lastData);
 
-  if (
-    window.location.href.match(/\/messages/)?.[0]
-  ) {
+  if (window.location.href.match(/\/messages/)?.[0]) {
     messagesBlur.initBlur(lastData, messagesOptionsBlur);
     messagesOptionsBlur.initBlur(lastData, messagesBlur);
     return;
   }
+
+  if (window.location.href.match(/\/notifications/)?.[0])
+    return notificationsBlur.initBlur(lastData);
 }
 
 updateData();

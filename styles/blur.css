@@ -40,3 +40,8 @@
   filter: blur(var(--messages-blur-amount))
     grayscale(var(--messages-blur-gray-scale));
 }
+
+.blur-notifications {
+  filter: blur(var(--notifications-blur-amount))
+    grayscale(var(--notifications-blur-gray-scale));
+}
