@@ -45,3 +45,8 @@
   filter: blur(var(--notifications-blur-amount))
     grayscale(var(--notifications-blur-gray-scale));
 }
+
+.blur-profile {
+  filter: blur(var(--profile-blur-amount))
+    grayscale(var(--profile-blur-gray-scale));
+}

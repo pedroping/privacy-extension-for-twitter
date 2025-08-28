@@ -1,6 +1,7 @@
 let lastPostElement;
 let commentsParent;
 let lastPostHovered;
+let blurPostOnScroll = false;
 
 function postElementListener(element) {
   if (
@@ -37,7 +38,10 @@ function postElementListener(element) {
 
 function initPostScrollListner() {
   window.addEventListener("scroll", () => {
-    if (lastPostElement && lastPostElement != lastPostHovered) {
+    if (
+      blurPostOnScroll ||
+      (lastPostElement && lastPostElement != lastPostHovered)
+    ) {
       lastPostElement.classList.add("blur-post");
     }
   });
@@ -70,6 +74,8 @@ function mainSectionBlur() {
 }
 
 function postBlur(data) {
+  blurPostOnScroll = !!data?.blurOnScroll?.value;
+
   if (!data?.blurPost?.value) {
     document.body.style.setProperty("--post-blur-amount", "0px");
     document.body.style.setProperty("--post-blur-gray-scale", "0");

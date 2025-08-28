@@ -1,6 +1,6 @@
 {
   "name": "Privacy Extension for Twitter",
-  "version": "3.3.3",
+  "version": "4.0.0",
   "description": "Privacy Extension for Twitter, blur your timeline.",
   "manifest_version": 3,
   "author": "PedroPing",
@@ -31,6 +31,7 @@
         "scripts/trendingBlur.js",
         "scripts/default-blur.js",
         "scripts/message-blur.js",
+        "scripts/profile-blur.js",
         "contentScript.js"
       ],
       "css": ["styles/blur.css"],

@@ -9,6 +9,10 @@ let initialData = {
     value: false,
     blurAmount: 10,
   },
+  blurProfile: {
+    value: false,
+    blurAmount: 10,
+  },
   blurTrending: {
     value: false,
     blurAmount: 10,

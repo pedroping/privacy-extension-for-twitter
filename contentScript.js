@@ -8,6 +8,7 @@ let exploreBlur;
 let messagesBlur;
 let messagesOptionsBlur;
 let notificationsBlur;
+let profileBlur;
 
 const settingsIdentifier = "data";
 
@@ -58,6 +59,11 @@ const getMessagesFn = () =>
 const getNotificationsFn = () =>
   document.querySelector(
     "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div.css-175oi2r.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div"
+  );
+
+const getProfileFn = () =>
+  document.querySelector(
+    "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div:nth-child(3) > div > div > section > div > div"
   );
 
 function initBlurClasses() {
@@ -146,6 +152,16 @@ function initBlurClasses() {
       "notifications",
       getNotificationsFn,
       "notifications",
+      true
+    );
+
+  if (!profileBlur)
+    profileBlur = new DefaultBlur(
+      lastData,
+      "blurProfile",
+      "profile",
+      getProfileFn,
+      "profile",
       true
     );
 }
@@ -242,6 +258,15 @@ function blurContent() {
 
   if (window.location.href.match(/\/notifications/)?.[0])
     return notificationsBlur.initBlur(lastData);
+
+  if (
+    window.location.href.match(
+      /^https?:\/\/(?:www\.)?x\.com\/(?!explore\/?|notifications\/?|messages\/?|lists\/?|bookmarks\/?|jobs\/?|premium_sign_up\/?|organizations\/?|monetization\/?|spaces\/?|settings\/?)([A-Za-z0-9_]+)(?:\/[A-Za-z0-9_]+)?\/?$/
+    )?.[0]
+  ) {
+    startProfileBlur(lastData);
+    return;
+  }
 }
 
 updateData();
