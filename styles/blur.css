@@ -50,3 +50,7 @@
   filter: blur(var(--profile-blur-amount))
     grayscale(var(--profile-blur-gray-scale));
 }
+
+article.blur-post {
+  filter: none !important;
+}

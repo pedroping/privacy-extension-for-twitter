@@ -8,7 +8,7 @@ function initProfileScrollListner() {
       blurProfileOnScroll ||
       (lastHeaderInfoElement && lastHeaderInfoElement != lastHeaderHovered)
     ) {
-      lastHeaderInfoElement.classList.add("blur-profile");
+      lastHeaderInfoElement?.classList?.add("blur-profile");
     }
   });
 }

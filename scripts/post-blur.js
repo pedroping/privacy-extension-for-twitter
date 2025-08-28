@@ -42,7 +42,7 @@ function initPostScrollListner() {
       blurPostOnScroll ||
       (lastPostElement && lastPostElement != lastPostHovered)
     ) {
-      lastPostElement.classList.add("blur-post");
+      lastPostElement?.classList?.add("blur-post");
     }
   });
 }

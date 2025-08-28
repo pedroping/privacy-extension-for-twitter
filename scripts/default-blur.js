@@ -125,7 +125,7 @@ class DefaultBlur {
         setTimeout(() => {
           this.allPostsList.forEach((post) => {
             if (this.data?.blurOnScroll?.value || post != this.lastElementHovered)
-              post.classList.add(`blur-${this.cssClass}`);
+              post?.classList?.add(`blur-${this.cssClass}`);
           });
         }, 1);
       }, 200)
