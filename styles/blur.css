@@ -51,6 +51,11 @@
     grayscale(var(--profile-blur-gray-scale));
 }
 
+.blur-search {
+  filter: blur(var(--search-blur-amount))
+    grayscale(var(--search-blur-gray-scale));
+}
+
 article.blur-post {
   filter: none !important;
 }

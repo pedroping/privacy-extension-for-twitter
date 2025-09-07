@@ -14,8 +14,10 @@ function initProfileScrollListner() {
 }
 
 function profileHeaderElementListener(element) {
-  element.classList.add("blur-profile");
-  element.setAttribute("element-init", true);
+  if (!element) return;
+  
+  element?.classList?.add("blur-profile");
+  element?.setAttribute("element-init", true);
 
   element.addEventListener("mouseenter", () => {
     if (lastHeaderInfoElement != element) return;
