@@ -15,7 +15,7 @@ function initProfileScrollListner() {
 
 function profileHeaderElementListener(element) {
   if (!element) return;
-  
+
   element?.classList?.add("blur-profile");
   element?.setAttribute("element-init", true);
 
@@ -46,6 +46,8 @@ function blurProfileHeader() {
     const headerInfoParent = document.querySelector(
       "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div:nth-child(3) > div > div > div:nth-child(1)"
     );
+
+    if (!headerInfoParent) return;
 
     if (headerInfoParent != lastHeaderInfoElement) {
       lastHeaderInfoElement?.classList?.remove("blur-profile");

@@ -278,14 +278,7 @@ function blurContent() {
   if (window.location.href.match(/\/search/)?.[0])
     return searchBlur.initBlur(lastData);
 
-  if (
-    window.location.href.match(
-      /^https?:\/\/(?:www\.)?x\.com\/(?!explore\/?|notifications\/?|messages\/?|lists\/?|bookmarks\/?|jobs\/?|premium_sign_up\/?|organizations\/?|monetization\/?|spaces\/?|settings\/?|search\/?)([A-Za-z0-9_]+)(?:\/[A-Za-z0-9_]+)?\/?$/
-    )?.[0]
-  ) {
-    startProfileBlur(lastData);
-    return;
-  }
+  startProfileBlur(lastData);
 }
 
 updateData();
