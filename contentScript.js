@@ -19,6 +19,9 @@ if (typeof browser == "undefined") {
 
 const getHomeParentFn = () =>
   document.querySelector(
+    "#react-root > div > div > div.css-g5y9jx.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-g5y9jx.r-kemksi.r-1kqtdi0.r-1ua6aaf.r-th6na.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div.css-g5y9jx.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div",
+  ) ||
+  document.querySelector(
     "#react-root > div > div > div.css-175oi2r.r-1f2l425.r-13qz1uu.r-417010.r-18u37iz > main > div > div > div > div.css-175oi2r.r-kemksi.r-1kqtdi0.r-8e33y0.r-1lnugsr.r-1phboty.r-16y2uox.r-184en5c.r-1abdc3e.r-1lg4w6u.r-f8sm7e.r-13qz1uu.r-1ye8kvj > div > div.css-175oi2r.r-f8sm7e.r-13qz1uu.r-1ye8kvj > section > div > div",
   );
 
